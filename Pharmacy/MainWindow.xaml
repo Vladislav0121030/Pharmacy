@@ -1,0 +1,158 @@
+﻿<Window x:Class="Pharmacy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pharmacy"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Аптека - Управление" Height="600" Width="900">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Сотрудники">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <Button x:Name="AddEmployeeButton" Content="Добавить" Margin="5" Width="100" Click="AddEmployee_Click"/>
+                        <Button x:Name="EditEmployeeButton" Content="Редактировать" Margin="5" Width="100" Click="EditEmployee_Click"/>
+                        <Button x:Name="TransferEmployeeButton" Content="Перевести" Margin="5" Width="100" Click="TransferEmployee_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="EmployeesGrid" Grid.Row="1" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                              SelectionChanged="EmployeesGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding Position}" Width="*"/>
+                            <DataGridTextColumn Header="Оклад" Binding="{Binding Salary, StringFormat=C}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="История переводов:" Grid.Row="2" Margin="5,10,5,0"/>
+
+                    <DataGrid x:Name="TransfersGrid" Grid.Row="3" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding TransferDate, StringFormat=d}" Width="*"/>
+                            <DataGridTextColumn Header="Предыдущая должность" Binding="{Binding PreviousPosition}" Width="*"/>
+                            <DataGridTextColumn Header="Новая должность" Binding="{Binding NewPosition}" Width="*"/>
+                            <DataGridTextColumn Header="Причина" Binding="{Binding TransferReason}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Лекарства">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <Button x:Name="AddMedicineButton" Content="Добавить" Margin="5" Width="100" Click="AddMedicine_Click"/>
+                        <Button x:Name="EditMedicineButton" Content="Редактировать" Margin="5" Width="100" Click="EditMedicine_Click"/>
+                        <Button x:Name="SellMedicineButton" Content="Продать" Margin="5" Width="100" Click="SellMedicine_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="MedicinesGrid" Grid.Row="1" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                              SelectionChanged="MedicinesGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding MedicineName}" Width="*"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="Упаковки:" Grid.Row="2" Margin="5,10,5,0"/>
+
+                    <DataGrid x:Name="PackagesGrid" Grid.Row="3" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Форма" Binding="{Binding PackageForm.FormName}" Width="*"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat=C}" Width="*"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="Заменители:" Grid.Row="4" Margin="5,10,5,0"/>
+
+                    <DataGrid x:Name="SubstitutesGrid" Grid.Row="5" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding MedicineName}" Width="*"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Отчеты">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <TextBlock Text="Лекарство:" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        <ComboBox x:Name="MedicineComboBox" Width="200" Margin="5" DisplayMemberPath="MedicineName"/>
+                        <TextBlock Text="Год:" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        <ComboBox x:Name="YearComboBox" Width="80" Margin="5">
+                            <ComboBoxItem Content="2022"/>
+                            <ComboBoxItem Content="2023"/>
+                            <ComboBoxItem Content="2024" IsSelected="True"/>
+                        </ComboBox>
+                        <Button x:Name="UpdateChartButton" Content="Обновить" Margin="5" Width="100" Click="UpdateChart_Click"/>
+                    </StackPanel>
+
+                    <lvc:CartesianChart x:Name="RequestsChart" Grid.Row="1" Margin="5" LegendLocation="Top">
+                        <lvc:CartesianChart.Series>
+                            <lvc:ColumnSeries Title="Запросы" Values="{Binding RequestCounts}" 
+                                            Fill="#FF4E87D1"/>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Месяц" Labels="{Binding Months}">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="0"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Количество запросов">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1" Stroke="#DDDDDD"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <TextBlock Text="Наличие лекарств на конец дня:" Grid.Row="2" Margin="5,10,5,0"/>
+
+                    <DataGrid x:Name="InventoryGrid" Grid.Row="3" Margin="5" 
+                              AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Лекарство" Binding="{Binding MedicineName}" Width="*"/>
+                            <DataGridTextColumn Header="Форма" Binding="{Binding FormName}" Width="*"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat=C}" Width="*"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

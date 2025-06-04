@@ -1,0 +1,48 @@
+﻿<Window x:Class="Pharmacy.Views.EmployeeForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Сотрудник" Height="300" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Фамилия:" Grid.Row="0" Grid.Column="0"/>
+        <TextBox Text="{Binding LastName}" Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Имя:" Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding FirstName}" Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Отчество:" Grid.Row="2" Grid.Column="0"/>
+        <TextBox Text="{Binding MiddleName}" Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Адрес:" Grid.Row="3" Grid.Column="0"/>
+        <TextBox Text="{Binding Address}" Grid.Row="3" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Дата рождения:" Grid.Row="4" Grid.Column="0"/>
+        <DatePicker SelectedDate="{Binding BirthDate}" Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Должность:" Grid.Row="5" Grid.Column="0"/>
+        <TextBox Text="{Binding Position}" Grid.Row="5" Grid.Column="1" Margin="5"/>
+
+        <Label Content="Оклад:" Grid.Row="6" Grid.Column="0"/>
+        <TextBox Text="{Binding Salary}" Grid.Row="6" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="8" Grid.ColumnSpan="2">
+            <Button Content="OK" Width="80" Margin="5" IsDefault="True" Click="OkButton_Click"/>
+            <Button Content="Отмена" Width="80" Margin="5" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
